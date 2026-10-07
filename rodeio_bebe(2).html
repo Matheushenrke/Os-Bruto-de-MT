@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🤠 Rodeio Bebe</title>
+<style>
+  :root{
+    --bg:#241305; --bg2:#3a2410; --card:#4a2d12; --card2:#5a3816;
+    --gold:#f4b23e; --cream:#f7e6c4; --red:#e0523f; --green:#7ec850;
+    --pink:#ff7ab8; --wood:#7a4a1f; --line:#8a5a2a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%, #5a3816 0%, var(--bg) 55%);
+    color:var(--cream); min-height:100vh; display:flex;
+    align-items:center; justify-content:center; padding:16px;
+  }
+  .wrap{width:100%;max-width:460px}
+  .card{
+    background:linear-gradient(180deg,var(--card),var(--bg2));
+    border:2px solid var(--line); border-radius:16px;
+    box-shadow:0 12px 40px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08);
+    overflow:hidden;
+  }
+  .header{
+    background:linear-gradient(180deg,var(--wood),var(--card));
+    padding:18px 20px 14px; text-align:center; border-bottom:2px solid var(--line);
+  }
+  .header h1{font-size:26px; letter-spacing:1px; color:var(--gold); text-shadow:0 2px 0 rgba(0,0,0,.4)}
+  .header .sub{font-size:12.5px; color:var(--cream); opacity:.85; margin-top:4px}
+  .chip{
+    display:inline-block; margin-top:8px; background:rgba(0,0,0,.28);
+    border:1px solid var(--line); border-radius:999px; padding:3px 12px;
+    font-size:12px; color:var(--gold);
+  }
+  .body{padding:18px 18px 22px}
+  .menu{display:grid; gap:10px}
+  .btn{
+    display:flex; align-items:center; gap:12px; width:100%;
+    background:linear-gradient(180deg,var(--card2),var(--card));
+    border:1.5px solid var(--line); border-radius:12px; padding:13px 14px;
+    color:var(--cream); font-size:15px; cursor:pointer; text-align:left;
+    transition:transform .06s, border-color .15s;
+  }
+  .btn:hover{border-color:var(--gold); transform:translateY(-1px)}
+  .btn:active{transform:scale(.985)}
+  .btn .num{
+    background:var(--gold); color:#241305; font-weight:700; min-width:26px; height:26px;
+    border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px;
+  }
+  .btn.pink .num{background:var(--pink); color:#2a0a18}
+  .btn small{display:block; opacity:.7; font-size:12px; margin-top:1px}
+  .verse-box{
+    background:rgba(0,0,0,.25); border:1.5px dashed var(--line); border-radius:12px;
+    padding:16px 16px 12px; margin:14px 0; min-height:90px;
+  }
+  .verse{font-size:17px; line-height:1.5; white-space:pre-wrap}
+  .autor{text-align:right; color:var(--gold); font-style:italic; margin-top:8px; font-size:14px}
+  .tag{display:inline-block; font-size:11px; text-transform:uppercase; letter-spacing:1px;
+    color:var(--gold); opacity:.8; margin-bottom:8px}
+  .row{display:flex; gap:10px; margin-top:14px}
+  .row .btn{flex:1; justify-content:center; text-align:center}
+  .big{
+    background:linear-gradient(180deg,var(--gold),#d98e1f); color:#241305; font-weight:700;
+  }
+  .big:hover{border-color:var(--cream)}
+  .green{background:linear-gradient(180deg,#5da53a,#3f7a26); color:#fff}
+  .red{background:linear-gradient(180deg,#c64a37,#8f2f20); color:#fff}
+  .hint{font-size:13px; color:var(--green); margin-top:10px; text-align:center}
+  .target{
+    text-align:center; background:rgba(0,0,0,.28); border-radius:12px; padding:14px;
+    border:1.5px solid var(--line);
+  }
+  .target .w{font-size:30px; font-weight:800; color:var(--gold); letter-spacing:1px}
+  .target .l{font-size:12.5px; opacity:.8; margin-top:2px}
+  input[type=text]{
+    width:100%; margin-top:12px; padding:12px; border-radius:10px; font-size:15px;
+    border:1.5px solid var(--line); background:#2c1a0a; color:var(--cream);
+  }
+  input[type=text]:focus{outline:none; border-color:var(--gold)}
+  .castigos{display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:12px}
+  .castigo{
+    background:rgba(0,0,0,.28); border:1px solid var(--line); border-radius:999px;
+    padding:5px 12px; font-size:12.5px;
+  }
+  .castigo.desafio{border-color:var(--gold); color:var(--gold)}
+  .castigo.bebe{border-color:var(--red); color:#ff9a8a}
+  .stat{display:flex; justify-content:space-between; padding:7px 2px; border-bottom:1px dashed var(--line); font-size:14px}
+  .footer{text-align:center; font-size:11.5px; opacity:.55; padding:10px 16px 16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="header">
+      <h1>🤠 RODEIO BEBE 🍺</h1>
+      <div class="sub">Versos de peão, cachaça e muié</div>
+      <span class="chip" id="chipCount"></span>
+    </div>
+    <div class="body" id="app"></div>
+    <div class="footer">SEGURA PEÃO! 🐂 — beba com moderação 🍻</div>
+  </div>
+</div>
+
+<script>
+const VERSOS = [{"v": "Lá em casa minha mãe teve três filhos, cada um faz o que quer. Um nasceu pro rodeio, outro pro café. Eu nasci pra ser locutor e beijar a boca das muié.", "a": "Alessandro Cunha"}, {"v": "Se mulher fosse dinheiro, eu vivia pedindo esmola. Se chovesse mulher, eu arrancava o telhado fora. A loira me deixou e a morena foi embora. Só me restou nesta vida rodeio, cachaça e moda de viola.", "a": "Marco Brasil"}, {"v": "Voa, voa, gavião, com a tesoura no pé, pra cortar a língua dos homens que falam mal das muié.", "a": "Marco Brasil"}, {"v": "Loira, casa comigo que eu sou filho de fazendeiro. Minha bota cheira bosta de boi, mas meu bolso cheira dinheiro.", "a": "Fábbio Pereira"}, {"v": "Pimenta malagueta é ardida, rapadura é docinha. Sua esposa é agitada, mas como amante é mansinha.", "a": "Fábbio Pereira"}, {"v": "Hoje recebi uma carta que acabou com meu tormento. Ela dizia que minha casa pegou fogo e minha sogra estava dentro.", "a": "Anônimo"}, {"v": "No dia que casei foi um fuzuê danado. De um lado meu sogro, de outro meu cunhado. Na frente um sargento, atrás um soldado. Me levaram pro altar com pulso algemado. Tinha um padre, um juiz e um delegado. Dessa vez acabei mesmo casado.", "a": "Marco Brasil"}, {"v": "Eu nunca vi mudo falar, surdo escutar, cego enxergar. Mas já vi muita mulher baixinha fazer homem grande chorar.", "a": "Marco Brasil"}, {"v": "Quando Deus criou o mundo, deixou tudo combinado. Fez canário pra mato fino e capoeira pra bicho do mato. Fez perfume pras muié bonita e cachaça pros homi apaixonado.", "a": "Anônimo"}, {"v": "Pra fazer tudo que eu gosto, nunca tive lugar nem horário. Moro embaixo do chapéu, não carrego calendário. Minha língua é muito simples, não conheço dicionário. No rodeio sou mestre, mas na escola fiz só o primário.", "a": "Anônimo"}, {"v": "O que eu gosto nessa vida, digo sem medo de errar: beijar boca de moça até o beiço entortar, tocar berrante, fazer verso e nos touros montar, ir pra Festa de Barretos porque lá é o meu lugar.", "a": "Anônimo"}, {"v": "Meu cavalo e minha mulher caíram num poço fundo. O cavalo eu tirei ligeiro, num prazo de um segundo. A mulher eu deixei lá porque tem muitas no mundo.", "a": "Anônimo"}, {"v": "Pra quem me chamou de caipira, agora vou responder. Tenho um Mangalarga pra marchar e um quarto de milha pra correr. Tenho muito boi gordo na invernada e whisky pra beber. Tenho a loira de manhã e a morena ao entardecer. Se isso for ser caipira, meu amigo, vou ser caipira até morrer.", "a": "Anônimo"}, {"v": "Sou locutor de rodeio e viajo o Brasil inteiro. Gosto de mulher bonita e não ligo pra dinheiro. Praquelas que se apaixonam eu digo que sou solteiro.", "a": "Anônimo"}, {"v": "Minha mãe me fez um pedido: meu filho, deixa de beber. Eu disse, mamãe, faça outro que esse eu não posso atender. É que cachaça e mulher bonita só deixo quando morrer.", "a": "Anônimo"}, {"v": "Demorei 8 dias pra chegar até aqui. Me apaixonei 16 vezes e não vi. Tomei 24 litros de whisky e não caí. Matei 32 pomba no vidro do meu carro e não morri. Parei 48 vezes pra fazer xixi. Me multaram 56 vezes e eu ri. Errei 72 vezes o caminho e dei conta de chegar até aqui.", "a": "Mara Magalhães"}, {"v": "Pisamos forte nesse chão. Quem quiser casar com a gente tem que ser um bom peão. Não precisa ser bonito, tem que ter educação e usar o seu talento pra domar nosso coração.", "a": "Anônimo"}, {"v": "Cowboy que é cowboy usa calça apertada. Cutuca boi com espora, abraça a morena e manda a loira embora.", "a": "Anônimo"}, {"v": "Sou cowgirl espora de ouro. Tenho a voz rouca e macia. Piso na folha seca e ela não chia. Namoro os homens bonitos e meu namorado nem desconfia.", "a": "Anônimo"}, {"v": "Sou neta da cachaça, que é filha do Satanás. As bonitas sapateiam, deixando as recalcadas triste demais. O final dessa história eu já lhe digo, meu rapaz: setenta capetas juntos não fazem o que a morena aqui faz.", "a": "Anônimo"}, {"v": "Pra quem não sabe quem eu sou, agora eu vou dizer: burro empacadô corteio de espora, fiz o bicho corrê. Mulher namoradeira dei um trato que ela não vai mais esquecê. Mulher feia levei pra invernada pra espantá boiada. Meu nome é Ednaldo Terra, muito prazer.", "a": "Ednaldo Terra"}, {"v": "Mulher feia pra mim não serve como namorada, só serve pra levá pro campo pra espantá boiada.", "a": "Ednaldo Terra"}, {"v": "A mulher pra ser cowgirl tem que usar chapéu e calça apertada, montar no lombo de um touro com uma mão levantada, fazer amor comigo gritando e levando chicotada.", "a": "Ednaldo Terra"}, {"v": "Eu vivo pelos rodeios, não tenho um ideal, apenas tenho uma paixão: narrar rodeio com a alegria que carrego no coração. Em cada cidade que chego, procuro fazer amizade. Com os homens deixo admiração, com as mulheres deixo saudade.", "a": "Ednaldo Terra"}, {"v": "Foi no abrir da porteira que o boi eu esporiei. Foi com um piscar de olhos de uma loira casada que eu me apaixonei. Mas também foi nessa paixão proibida que eu me amarrei.", "a": "Ednaldo Terra"}, {"v": "Pernilongo de pescador é borrachudo, pernilongo de cavalo é mutuca. O boi pra gemer eu meto a espora, e a mulher pra gemer dou um cheirinho na nuca.", "a": "Ednaldo Terra"}, {"v": "Dizem que nóis caipira fala errado, mas nóis fala porque nóis qué. Afinal, memo falando errado, nóis tem rodeio, cachaça e muié.", "a": "Ednaldo Terra"}, {"v": "A morena jogou o laço e me prendeu na sua paixão. Depois foi embora, me deixando preso na solidão.", "a": "Ednaldo Terra"}, {"v": "Já bebi leite de cobra, já fumei o cachimbo do saci. Já galopei na mula sem cabeça, já vi galinha fazer xixi. Só ainda não vi nesse Brasil o salário do pobre subir.", "a": "Ednaldo Terra"}, {"v": "O berrante quando toca na invernada faz o gado se ajuntá. Quando toca no rodeio faz a peonada se emocioná. Enquanto eu ouvir seu repicado, meu coração não vai pará.", "a": "Ednaldo Terra"}, {"v": "Se meu nome fosse Ricardo, meu apelido seria Ricardão. E de tanto sair com mulher casada, quase já fui pra debaixo do chão.", "a": "Ednaldo Terra"}, {"v": "Ohhh loira dos olhos esverdeados: se tiver calor te levo pro chuveiro, se tiver frio te levo ligeiro pra debaixo do meu acolchoado.", "a": "Ednaldo Terra"}, {"v": "Tem cowboy que é metido a garanhão, paquera mulher casada, do marido dela diz que não tem medo não. Só que um dia desses chegou em casa cansado e apavorado, pois corria de um três oitão.", "a": "Ednaldo Terra"}, {"v": "É no bater do vento que meu chapéu voa, é no cutucão da espora que a ginetiada sai boa, e é no nhem nhem nhem da sanfona que eu danço com as novinha e as coroa.", "a": "Ednaldo Terra"}, {"v": "Dizem que ainda existe sogra boa, mas eu não acredito não. Pois se ainda tiver alguma, cuida dela, pois tá em extinção.", "a": "Ednaldo Terra"}, {"v": "A cerveja vem da cevada, a cachaça vem da cana. Hoje a morena só sai lá de casa depois de nóis quebrá a cama.", "a": "Ednaldo Terra"}, {"v": "Meu amor fugiu de mim, juntou suas malas e partiu sem me avisar. Volta logo, morena, se não eu não vou aguentar.", "a": "Ednaldo Terra"}, {"v": "Não nasci em berço de ouro, nasci num berço forrado com paiada. Não fui desmamado com garapa, me criei com leite de onça pintada. Não sou namoradô, mas me chamam de garanhão da madrugada.", "a": "Ednaldo Terra"}, {"v": "Eu subi num pé de cana, desci gomo por gomo. Quem tiver muié bonita, segura se não eu tomo.", "a": "Ednaldo Terra"}, {"v": "Tem três coisas neste mundo que atrapalham a vida da gente: desprezo de mulher, chifre e dor de dente.", "a": "Ednaldo Terra"}, {"v": "Meu quarto de milha é preto, meu mangalarga é baio. Quando eu entro no rodeio dificilmente eu saio. Dinheiro eu ganho bastante, por isso trago no balaio. Tenho duas namoradas e mais uma como quebra-galho.", "a": "Ednaldo Terra"}, {"v": "O homem que bebe pinga vive na embriaguez, cachorro que come ovo, muié que dá a primeira vez: não tem doutô no mundo que tire o vício dos três.", "a": "Ednaldo Terra"}, {"v": "Oh morena, ia passando em frente sua casa, vi sua calcinha pendurada na janela. Vendo ela sem você, pensei em você sem ela.", "a": "Ednaldo Terra"}, {"v": "Cavalo eu puxo no toco, burro eu puxo no mourão. Gosto de whisky, mas cerveja é minha paixão. Sou gamado na morena, mas da loira não largo não.", "a": "Ednaldo Terra"}, {"v": "Já viajei do Oiapoque ao Chuí. Já domei onça pintada, fiz laço de sucuri. A mulher que fica no bailão comigo passa quatro noites sem dormir.", "a": "Ednaldo Terra"}, {"v": "Tenho dois amores na vida sem haver traição: um dos amores eu trago no peito, o outro no coração. Sou duplamente apaixonado e muito bem amado. E assim minha vida rola: um dos amores é minha amada, o outro a minha viola.", "a": "Ednaldo Terra"}, {"v": "Boi arisco eu pego na corda até derrubar, seguro no rabo e não deixo cavar. Porco pego no rabo e piso no calcanhar. Morena beijo na boca e loira onde ela deixar.", "a": "Ednaldo Terra"}, {"v": "Sou mel na boca das moças, um veneno pras casadas. Sou um tormento pros homens e um calmante pras desquitadas.", "a": "Ednaldo Terra"}, {"v": "O homem que tem uma mulher é um louco apaixonado. O que tem duas é um homem realizado. O que tem três é um doido descontrolado. O que tem mais de três, sai da frente que é tarado.", "a": "Ednaldo Terra"}, {"v": "Soltei a mula no pasto depois de dar um repasso. Dei uma volta na sala, soltei meu peito de aço. Vi uma morena linda, fiz um verso no embaraço. Quando repiquei a viola, ela caiu nos meus braços.", "a": "Ednaldo Terra"}, {"v": "Quem não gosta de viola, brasileiro bom não é. Pra ser bom catireiro tem que ser ligeiro no pé. A coisa que o cowboy adora é o tal bicho muié.", "a": "Ednaldo Terra"}, {"v": "Quem tem morena tem paixão, quem tem loira tem saudade. Quem tem as duas é o garanhão da cidade. E quem não tem nenhuma, igual o Ednaldo Terra, passa vontade.", "a": "Ednaldo Terra"}, {"v": "Morena, casa comigo que você não passa fome: de dia cê come cobra, de noite a cobra te come.", "a": "Ednaldo Terra"}, {"v": "Bezerro de vaca preta onça pintada não come. Quem casa com mulher feia não tem medo de outro homem. Quem casa com mulher bonita é arriscado a levar chifre e passar fome.", "a": "Ednaldo Terra"}, {"v": "A pinga veio da cana, a cana veio da roça. O homem que tem duas mulheres, uma é dele e a outra é nossa.", "a": "Sidônio"}, {"v": "A paixão proibida é mais ou menos assim: da loira eu quero um abraço, da morena eu quero um beijo. Depois eu quero as duas pra matar o meu desejo.", "a": "Sidônio"}, {"v": "A semana tem 7 dias e eu tenho 14 namoradas: 7 são solteiras e 7 são casadas, 7 são pra de dia e 7 são pra de madrugada.", "a": "Sidônio"}, {"v": "Banana não tem caroço, sapo não tem pescoço. Mulher bonita encontra aqui em Mato Grosso.", "a": "Sidônio"}, {"v": "Carro sem roda não anda, bêbado deitado não cai. Chifre de corno não fura e cachaça pura não vai.", "a": "Sidônio"}, {"v": "Casa de palha, se eu fosse fogo queimava. As meninas do rodeio, se eu fosse Deus conservava. Cavalo bravo, se eu fosse peão domava, só pra ter a morena que eu tanto gostava.", "a": "Sidônio"}, {"v": "Coisa boa é ter uma namorada, uma caminhonete turbinada, vinte mil boi gordo na invernada e fazer amor de madrugada.", "a": "Sidônio"}, {"v": "Cuiabá tem subida, Cuiabá tem descida, Cuiabá tem loira e morena da minha vida.", "a": "Sidônio"}, {"v": "Da galinha eu tiro a pena, do peixe eu tiro a escama. Da morena eu tiro a roupa e levo ela pra cama.", "a": "Sidônio"}, {"v": "Espírito do cão, alma do Satanás: setenta capetas juntos não fazem o que a loira faz.", "a": "Sidônio"}, {"v": "Eu subi no pé de cana, desci de gomo em gomo. Não te quero por um dia, não te quero por um ano. Te quero por toda a vida, porque você é a mulher que eu amo.", "a": "Sidônio"}, {"v": "Eu vou roubar uma moça de um ninho de serpente. Ela quer casar comigo e a família não consente. Já me mandaram um recado, tô armado até os dente. Vai chover bala no mundo se nós topar frente a frente.", "a": "Sidônio"}, {"v": "Eu só bebo porque no fundo do copo eu vejo a foto da minha amada. Se eu parar de beber, ela vai morrer afogada.", "a": "Sidônio"}, {"v": "Mulher quando é vadia não endireita nem morta. É igual lenha de forquilha: depois de queimada, até a cinza é torta.", "a": "Sidônio"}, {"v": "É aquele velho ditado, o mundo virou uma fumaça: dinheiro homem não tem, mulher não faz amor de graça. A solução do vaqueiro é enfiar a cara na cachaça.", "a": "Sidônio"}, {"v": "Festa de rodeio começa na quinta-feira, com cerveja gelada, mulher bonita e poeira. E o desquite do cavaleiro vem na segunda-feira. Arrepia povão!", "a": "Sidônio"}, {"v": "Gosto muito de churrasco, filé, picanha ou bisteca, mas a coisa que eu mais gosto é a carne de perereca.", "a": "Sidônio"}, {"v": "Há três coisas que meu coração odeia: cerveja quente, boi doente e mulher da gente. Há também três coisas que meu coração palpita: cerveja gelada, boi na invernada e mulher pelada.", "a": "Sidônio"}, {"v": "Pra quem não me conhece, sou homem com H, não envergonho a raça. Mulher que não pega fogo, faço ela soltar fumaça.", "a": "Sidônio"}, {"v": "Loura, quando penso em você minha boca se enche de mel. Mas é pra morena que eu vou tirar o chapéu.", "a": "Sidônio"}, {"v": "Me chamaram de bêbado. A quem chamou vou responder: a bebida mata aos poucos, e eu não tenho pressa de morrer.", "a": "Sidônio"}, {"v": "Minha mãe teve três filhos, todos os três interesseiros. O primeiro nasceu pra roubar cavalo e o outro pra roubar dinheiro. E eu roubo moça bonita, que é um serviço mais maneiro.", "a": "Sidônio"}, {"v": "Morena bonita, não me olhe desse jeito, porque eu fico apaixonado, acabo perdendo o juízo e esqueço que sou casado.", "a": "Sidônio"}, {"v": "Morena, me dá um beijo num lugar que não tem osso, pra quando eu ficar velho me lembrar do tempo que eu era moço.", "a": "Sidônio"}, {"v": "Morena, vem ser a azeitona da minha empada. Casando comigo você nunca vai pegar na enxada, mas vai ter que fazer amor de manhã até de madrugada.", "a": "Sidônio"}, {"v": "Mulher é bicho do cão: mija sem pôr a mão, briga sem ter razão, não faz amor no chão, mas faz a cabeça de qualquer peão.", "a": "Sidônio"}, {"v": "Mulher é mesmo uma coisa estranha: tem na ponta da língua o veneno da cobra piçanha, deixa rico na miséria e o pobre sem vergonha.", "a": "Sidônio"}, {"v": "Não sei se devo, não sei se posso, te levar pra cama apertar seus osso, fazer um filho e falar que é nosso.", "a": "Sidônio"}, {"v": "Nesse mundo de meu Deus, tem três coisas que me mete medo: caminhão desgovernado, casar com mulher feia e celular de corré o dedo.", "a": "Sidônio"}, {"v": "O sábado à noite é uma criança, deixa eu ser o brinquedo. Não sou eu que durmo tarde, é o sol que nasce cedo.", "a": "Sidônio"}, {"v": "O trem apita quando está chegando, a lenha chora quando está queimando, a vaca berra quando está cruzando e a mulher grita quando está amando.", "a": "Sidônio"}, {"v": "Onde tem carniça tem urubu, onde tem buraco tem tatu, onde tem mulher bonita eu pulo que nem canguru.", "a": "Sidônio"}, {"v": "O que é lobo a onça não come. Quem casa com mulher feia não tem medo de outro homem. E quem casa com mulher bonita é perigoso levar chifre e passar fome.", "a": "Sidônio"}, {"v": "Oh morena, pra que cheirar a rosa se o cravo é mais cheiroso? Pra que beijar no rosto se na boca é mais gostoso?", "a": "Sidônio"}, {"v": "Oh morena, quando eu passo em frente da sua casa, vejo sua calcinha na janela. Vendo ela sem você, imagino você sem ela.", "a": "Sidônio"}, {"v": "Oh muchacha, há três coisas na vida que o homem brasileiro não come de colher: rapadura, melancia e perereca de mulher.", "a": "Sidônio"}, {"v": "Onde tem mulher bonita pode ver que tô no meio. Até já ganhei o apelido de garotão recheio. Sou bom de cama e não sou feio, então pra mulherada eu sou um prato cheio.", "a": "Sidônio"}, {"v": "Papagaio come periquito, periquito come a lacraia. O bicho que o homem mais gosta a mulher esconde embaixo da saia.", "a": "Sidônio"}, {"v": "Quando estou preso estou hospedado, quando estou solto estou viajando. Nasci no lugar errado, estou aqui por engano. Quando eu fico com a morena, eu deixo a loira chorando.", "a": "Sidônio"}, {"v": "Se mulher fosse dinheiro, eu vivia pedindo esmola. A loira me deixou e a morena foi embora. Só me restou nessa vida rodeio, cachaça e a viola.", "a": "Sidônio"}, {"v": "Se beijo desse sapinho, minha boca era uma lagoa. Não perdoo a mocinha, muito menos a coroa.", "a": "Sidônio"}, {"v": "Se um dia ganhasse na sena, acabaria meu sofrimento: trocaria meu burro e também meu jumento, compraria uma cadeia e jogava minha sogra dentro.", "a": "Sidônio"}, {"v": "Se o céu fosse uma arena, cada estrela seria um peão, o cometa seria um touro bravo e as nuvens seriam o chão. Deus seria o juiz e o meu pai o sertão.", "a": "Sidônio"}, {"v": "Tatu mora no buraco, onça mora no mato, índio mora na aldeia, sangue escorre na veia. Oh mulher, se seu coração fosse delegacia, eu vivia na cadeia.", "a": "Sidônio"}, {"v": "Tem homem que quer ser garanhão, arruma sete namoradas e acha que é o bom. Mas isso não passa de ilusão, porque no fim de tudo quem acaba pegando é o Ricardão.", "a": "Sidônio"}, {"v": "Sapateia mulher feia, esfrega a bunda na areia, que eu quero ver a coisa vermeia.", "a": "Vida"}, {"v": "Eu chego em casa, entro pela porta da sala, depois eu saio pela porta da cozinha. Dou um cheiro na mulher e um beijo na vizinha.", "a": "Vida"}, {"v": "Oh morena, faz uma vez comigo amor igual faz o gato: começa em cima do muro e termina debaixo do mato.", "a": "Vida"}, {"v": "Do milho eu faço a pipoca e da palha eu faço o colchão. A morena eu amo na palha e a loira eu amo no chão.", "a": "Vida"}, {"v": "Casa de pobre é ranchinho, casa de rico é de teia. Se fazer amor fosse crime, minha casa era a cadeia.", "a": "Vida"}, {"v": "Os cowboys gostam de festa e de muita folia. Beber cerveja bem gelada é nossa mania. Mas se só tiver cachaça, bebemos com a mesma alegria. Boi magro e mulher santa com a gente não se cria, porque nóis gosta é de muito boi gordo e putaria.", "a": "Vida"}, {"v": "Da cana eu tiro o açúcar, da mandioca eu tiro a farinha. Da mulher que eu tirei a roupa, ontem era sua, hoje ela é minha.", "a": "Vida"}, {"v": "Oh morena do cabelo de veludo, debaixo da tua saia tem um bicho cabeludo. Se você marca sanga comigo, eu como com cabelo e tudo.", "a": "Vida"}, {"v": "No tempo que eu montava, olha o que eu fazia: eu bebia e fodia, meu dinheiro rendia. Hoje eu não monto, acabou minha alegria. Não bebo e não fodo e melasco todo dia.", "a": "Vida"}, {"v": "A fazenda de meu sogro faz divisa com a minha. Deu o presente de casamento que eu não tinha. Com essa fazenda fiquei rico de repente. Casei com a fazenda e ganhei a moça de presente.", "a": "Vida"}, {"v": "Já peguei touro no laço e de rodeio fui campeão. Mulher é comigo mesmo, nunca fiz objeção. Seja loira ou morena, pode vir que eu acho bão. Sou neto de caipira, mas filho de Ricardão.", "a": "Vida"}, {"v": "Passei a mão na perna da véia pensando que era a perna da fia. Me desculpe, minha senhora, mas perna de véia é cascuda e perna de moça é macia.", "a": "Vida"}, {"v": "O que é do lobo a onça não come. Quem casa com mulher feia não tem medo de outro home. E quem casa com mulher bonita é perigoso levar chifre e passar fome.", "a": "Vida"}, {"v": "O homem faz coisas que até Deus duvida. Já faz muito tempo que eu estou nesta vida: rodeio, cachaça, muié, viola e briga. Porta de boteco e casa de rapariga. Garrafa destampada e muié de perna pra riba.", "a": "Vida"}, {"v": "Se tamanho fosse documento, eu seria dono de cartório. Se o capeta fosse meu amigo, eu seria milionário. Mas sou peão de rodeio, e com mulher gasto todo o meu salário.", "a": "Vida"}, {"v": "Oh morena dos olhos verdes que mora aí do outro lado: se eu não arranjá uma canoa pra fazer amor contigo, eu atravesso o rio a nado.", "a": "Vida"}, {"v": "Narrando perdi minha chave, minha mulher desapareceu. O delegado daqui é corno, o macho daqui sou eu.", "a": "Vida"}, {"v": "Da morena eu quero um beijo, da loira eu quero um abraço. Pra casar com este peão, só se for pegando no laço.", "a": "Vida"}, {"v": "Morena linda do cabelo comprido, por você eu passo chuva, eu passo sol, passo até por seu marido, pra chegar debaixo do seu lençol.", "a": "Vida"}, {"v": "Cavalo pra ser forte tem que ser garanhão. Touro pra ser valente derruba a gente no chão. Rodeio pra ser bom tem que ser no Barretão. Peão que não dá no couro, a mulher foge com o Ricardão.", "a": "Vida"}, {"v": "Não tenho pai, não tenho mãe, mas vim no bico de uma cegonha. Minha primeira mamadeira foi meio quilo de maconha.", "a": "Vida"}, {"v": "Carro bom é Santana, cerveja gostosa tem que ser Brahma, mulher bonita tem que ser goiana.", "a": "Vida"}, {"v": "Quando acaba o rodeio, tiro a roupa e o chapéu. A muchacha que ficar comigo amanhece no motel.", "a": "Vida"}, {"v": "Loira, se eu fosse cozinheiro te dava um prato de sopa. Mas sou cowboy de rodeio, vem cá que te dou um beijo na boca.", "a": "Vida"}, {"v": "Nasci no dia nove, nove vezes fui casado, tive nove sogro, nove lar abandonado. No dia nove encontrei nove caboco armado, dei nove tiro pra cima, fiz correr nove cunhado.", "a": "Vida"}, {"v": "A folha da bananeira de verde ficou madura. Quem namora com mulher casada não tem a vida segura: a cada passo que dá é o caminho da sepultura.", "a": "Vida"}, {"v": "Papagaio come cobra e cobra come lacraia. O bicho que eu mais gosto é aquele que mora embaixo de sua saia.", "a": "Vida"}, {"v": "Há três coisas no mundo que o homem come de colher: rapadura, melancia e perereca de mulher.", "a": "Vida"}, {"v": "Quem tem amor tem saudade, quem não tem passa vontade.", "a": "Vida"}, {"v": "Hôôô morena do cabelo comprido: maior que teu cabelo só o chifre do teu marido.", "a": "Vida"}, {"v": "Perdi meu cavalo e minha mulher no mesmo dia. Do cavalo senti dó e da mulher senti alegria. Porque cavalo bom não se encontra todo dia, mas mulher bonita e gostosa em Cuiabá tem à revelia.", "a": "Vida"}, {"v": "Quem tem loira tem saudade, quem tem morena tem qualidade. Quem tem as duas é o garanhão da cidade. E quem não tem nenhuma olha a dos outros e passa vontade.", "a": "Vida"}, {"v": "A minha sogra malvada torce pra eu virar corno, e enquanto está cozinhando sonha comigo assando igual a um porco no forno.", "a": "Edson Amorim"}, {"v": "Beijo roubado é melhor que dinheiro achado ou ganhar na loteria. Ainda mais aquele que você queria e que sempre lhe foi negado.", "a": "Edson Amorim"}, {"v": "Mulher braba se amansa com beijos. Pra pegar o rato a isca é o queijo. Pra levar mulher pra cama é dinheiro. O melhor analista é o travesseiro.", "a": "Edson Amorim"}, {"v": "Mulher alheia rima com cadeia, bebedeira rima com asneira, paixão rima com emoção, separação rima com vitalícia pensão, frio rima com arrepio, trovejada rima com mulher feia.", "a": "Edson Amorim"}, {"v": "Pra pisar na chapa quente da arena, o peão montador tem que ter destreza e coragem: rezar antes pro seu santo de devoção, pra ficar de plantão e ajudar na aterrissagem, e confiar no palhaço pra tirar o boi esturrando pra longe do seu espaço.", "a": "Edson Amorim"}, {"v": "Mentira tem perna curta, e se descoberta não adianta explicar. Pois se o furo é grande demais, não tem como remendar.", "a": "Edson Amorim"}, {"v": "O rodeio é uma festa coroada de alegria. A atração é a montaria e o peão é o artista principal, onde o locutor oficial num picadeiro que contagia faz versos engraçados enquanto narra as montarias.", "a": "Edson Amorim"}, {"v": "Não tenho dinheiro pra tomar uísque, então só tomo pinguinha. Tem mulher que é uma onça, mas transando é uma gatinha.", "a": "Edson Amorim"}, {"v": "O peão de rodeio é corajoso e arrojado, vaidoso e bem jeitoso. Usa grande chapéu de cowboy na cabeça e as abas com cantos dobrados, camisa invocada e calça jeans apertada com cinto largo e bem afivelado. E monta melhor o touro e o cavalo quando está apaixonado.", "a": "Edson Amorim"}, {"v": "Pro valente e destemido peão de rodeio, seus limites são o céu e o chão. Montando em bravos bois e cavalos, a plateia grita segura peão. E a montaria são eternos oito segundos, até o peão pular ou beijar o chão.", "a": "Edson Amorim"}, {"v": "Telefone é preto, mas não é café. Eu sou bom na bola, mas não sou Pelé. Eu sou bom no tapa e melhor no pé. Eu sou ruim pros homens e bonzinho pras mulher.", "a": "Anônimo"}, {"v": "Na segunda eu bebo em casa, na terça eu vou pra gandaia. Na quarta vou pra fazenda levando meu chapéu de paia. Na sexta eu volto e caço uns rabos de saia.", "a": "Anônimo"}, {"v": "Cavalo pra ser forte tem que ser garanhão. Touro pra ser valente derruba a gente no chão. Rodeio pra ser bom tem que ser no Barretão. Mas a mulher bonita foi quem laçou meu coração.", "a": "Anônimo"}, {"v": "O meu destino é o rodeio. Se tiver homem eu tô no meio. Boi nós manda pastar, cowboy nós laça e faz sofrer inté quietá. Por esse mundo vivo a galopar e não existe alguém pra me derrubar.", "a": "Anônimo"}, {"v": "Whisky vem no copo, burro vem no morão. Dinheiro e mulher bonita é a nossa perdição.", "a": "Anônimo"}, {"v": "É como diz o ditado: desgraça pouca é bobagem. No lombo de um touro bravo é que eu faço minhas viagem. Eu vejo o mundo girando, mas sempre eu levo vantagem. Segura peão!", "a": "Anônimo"}, {"v": "Boi que pula rodando, mulher que faz amor gritando, é porque tem sempre um peão por cima cutucando.", "a": "Anônimo"}, {"v": "Meu amigo foi lá em casa e levou a namoradinha. A coitada era tão magra que nem bunda ela tinha. Tirei uma conclusão, pra quando for arranjar a minha: mulher pra ser gostosa tem que ser meio gordinha.", "a": "Anônimo"}, {"v": "Sapateia mulher feia, porque as bonitas não dão descanso. Se tu casar comigo, te dou uma D20, um papagaio e um casal de ganso.", "a": "Anônimo"}, {"v": "Eu conheço uma cidade, uma cidade que reluz. De dia falta água e de noite falta luz. Se lá tiver alguma mulher virgem, é milagre de Jesus.", "a": "Anônimo"}, {"v": "Tem quatro coisas que meu coração palpita: touro que pula rodando, a voz do locutor que agita, cavalo bom de sela e beijo de mulher bonita.", "a": "Anônimo"}, {"v": "Eu nasci pra ser bruto e isso vocês verão. Chicote não me doma, muito menos no bridão. Meu coração é de pedra, aqui não tem chamego não. Porque sou um indomável, de sangue e de coração.", "a": "Anônimo"}, {"v": "Sou homem, mas não sou sortudo. Gostaria de ser mesmo um sapo: esse sim come a perereca toda noite e vive como um rei do lago.", "a": "Anônimo"}, {"v": "Na segunda eu planto a cana, na terça a cana amanhece crescendo. Na quarta eu colho a cana, na quinta mando pro engenho. Na sexta eu faço a pinga, no sábado eu amanheço bebendo. No domingo minha mãe diz: meu filho, para de beber. Nessa sina eu sigo bebendo até morrer.", "a": "Anônimo"}, {"v": "Meu chapéu é bem quebrado, minha calça é apertada, minha fivela é grande, minha bota é invocada. Nem amarrado eu fico onde existe solidão. Gosto de levar a vida movido pela emoção.", "a": "Anônimo"}, {"v": "Hôôô coração que vai batendo acelerado. É só ver mulher bonita e já fica apaixonado. Coração não me deixa sem sofrimento, pois eu sinto por fora o que você sente por dentro.", "a": "Anônimo"}, {"v": "Na minha horta eu ponho esterco, na cana adubo e vinhaça. Da mina eu tiro água boa, do engenho a cachaça. Não tem o que a mulher quer que o cowboy não faça.", "a": "Anônimo"}, {"v": "Se o céu fosse uma arena, cada estrela era um peão, o cometa era o touro e a morena meu coração.", "a": "Anônimo"}, {"v": "Casamento é igual palhaço de rodeio: não sobrevive se não pular o brete.", "a": "Anônimo"}, {"v": "Marmanjo a gente pega o pau de amansar louco e enfia o cacete pra arrebentar. E as muchachas bonitas a gente carrega no colo e leva na cama pra amar.", "a": "Anônimo"}, {"v": "Senta o velho boiadeiro, pra mim história contar. Os anjos descem do céu e o povão agora nos vê falar. Pára o vento, esfria o sol, hoje é noite de luar. É no repicado da viola que a festa não pode parar.", "a": "Anônimo"}, {"v": "Na escola desse mundo eu não sou nenhum letrado, mas faço verso bonito e faço qualquer ditado. Sou igual macaco velho, nunca dou o pulo errado. Por isso não vou em festa quando não sou convidado.", "a": "Anônimo"}, {"v": "No lugar que tem jacú, inhambú passa e não pia. Quem não sabe fazer verso não se meta na folia. Quem é bom já nasce feito, meu avô sempre dizia. Que o rato não faz festa no lugar que o gato mia.", "a": "Anônimo"}, {"v": "Ohhh cumade, é no rala rala e no gostoso esfrega esfrega que a gente se diverte e se entrega. Mas é no final do bailão que a coisa pega, pois chegando lá em casa eu já sei que o pau quebra.", "a": "Ednaldo Terra"}, {"v": "Cavalo doido pulou pra lá, pulou pra cá. Chupa-cabra perdeu a dentadura, já não pode mais chupar. Esta é a hora do cowboy e é aqui que a cobra vai fumar.", "a": "Ednaldo Terra"}, {"v": "Eu ando com Deus na frente, ninguém vai me derrubar. Aonde eu cheguei andando, os invejosos não vão chegar.", "a": "Ednaldo Terra"}, {"v": "Gosto de boa amizade, de viola e poesia. Se o lugar for aconchegante e com uma morena tomando um espumante, eu fico até o clarear do dia.", "a": "Ednaldo Terra"}, {"v": "Nunca sei falar um não para um fã que me aprecia. Duas coisas que detesto é invejoso e vantajoso no meio de uma folia.", "a": "Ednaldo Terra"}, {"v": "No garimpo sou diamante, no truco quatro manias: sou zap, sete copa, sete ouro e espadilha. Só se ganha na trucada quem tem mais coragem e sabedoria.", "a": "Ednaldo Terra"}, {"v": "Não pretendo ser famoso, nem quero ser milionário. Moro longe da cidade, num ranchinho solitário. Aqui vai um abraço praqueles que pensam que sou um otário.", "a": "Ednaldo Terra"}, {"v": "Esse Brasil é um mundão, vou explicar como é que é. No sul tem o chimarrão, na Bahia tem o axé. No Rio tem samba e verão, em Goiás tem piqui e muié. O queijo de Minas, uai que trem bão. Em São Paulo no Santos jogou o rei Pelé. Em Recife o forró é bom, do Paraná vem nosso café. Em Brasília não tem ladrão, acredite se quiser.", "a": "Ednaldo Terra"}, {"v": "Meu ex-amor, você me amou, também amei você. Na vida de dois amantes tudo pode acontecer. No tempo que tu me tinha eu não queria te ter. Agora que eu te tenho é tu que não quer metê.", "a": "Ednaldo Terra"}, {"v": "Cavalo que pula não me tira do lombo. Assuntos de amor, levei alguns tombos. A muchacha me deixou, eu fiquei três dias de cama.", "a": "Ednaldo Terra"}, {"v": "Alô mulherada louca: se correr o bicho pega, se ficar o bicho come. O tal do bicho mulher nasceu para cruzar com homem.", "a": "Sidônio"}, {"v": "A minha mulher pra me prender fez uma oração. Ou ela não sabe rezar direito, ou reza sem devoção. Aqui não, Xexênia!", "a": "Sidônio"}, {"v": "A mulher toca o peão, o peão toca a boiada, a boiada toca o rodeio dessa gente apaixonada.", "a": "Sidônio"}, {"v": "Canta o galo no terreiro, na selva manda o leão, o homem dentro de casa, no mar manda o tubarão. O sabiá manda na laranjeira e a festa de rodeio manda no meu coração.", "a": "Sidônio"}, {"v": "Corri o Brasil inteiro em busca de emoção. Encontrei no rodeio minha verdadeira paixão. Não tenho medo da saudade, tenho pavor da solidão. Sou apaixonado pela loira, mas tenho a morena no coração.", "a": "Sidônio"}, {"v": "Da morena eu quero um beijo, da loira eu quero um abraço. Pra ficar com as duas eu pego à laço.", "a": "Sidônio"}, {"v": "De dia eu planto milho, de noite eu vendo pipoca. De dia eu vendo farinha, de noite eu planto mandioca.", "a": "Sidônio"}, {"v": "Dizem que jovem é outro papo, mas os velhos que são de lascar. Os velhos só saem à noite se a lua clarear. Com os velhos não tem conversa, é tico-tico no fubá.", "a": "Sidônio"}, {"v": "Eu vou deixar meu endereço, ficarei feliz se algum de vocês me visitar. A minha casa não tem luxo, mas quando rarear o mato, por favor tire o sapato pra passar o ribeirão. A grama verde é o tapete da chegada onde o vento nasce agitando a paineira como se fosse uma bandeira hasteada em meu quintal. Não bata forte quando passar pela porteira, que a pancada da madeira machuca o meu coração.", "a": "Sidônio"}, {"v": "Eu recebi uma carta, veio de outra cidade: duas gramas de papel pra mil quilos de saudade.", "a": "Sidônio"}, {"v": "Espora no sovaco dinheiro é fraco, espora no pescoço dinheiro é grosso.", "a": "Sidônio"}, {"v": "Em casa de ferreiro o espeto é de pau. Ronaldinho é muito bom e o Edmundo um animal. Mulher é qualquer uma, pra mim isso não faz mal.", "a": "Sidônio"}, {"v": "Eu nasci em Itapetinga, interior da Bahia, amansando burro bravo tomando cerveja fria. Narrando festa de gado e caindo na folia. Dinheiro eu ganho pouco, dá pra levar numa bacia.", "a": "Sidônio"}, {"v": "Eu sou a borboleta que voa contra o vento. Quem eu amo não me ama, quem me ama perde tempo.", "a": "Sidônio"}, {"v": "Enquanto houver num pôr do sol derradeiro o som de um berrante alertando o crepúsculo, uma cerveja no copo deleitando o boiadeiro e a proteção divina para os sertanejos, haverá um rodeio.", "a": "Sidônio"}, {"v": "Lá no alto daquele cume eu plantei um pé de roseira. Matos no cume crescem, rosas no cume cheiram. Quando vem a chuva fina, orvalho no cume cai. Lagartos no cume entram, abelhas do cume saem. Quando vem a chuva grossa, no cume traz alegria. No alto o raiar do sol, o sol que no cume ardia!", "a": "Sidônio"}, {"v": "Lá em casa, ultimamente eu ando meio azarado. É o vaso que quebra, a sogra que escorrega, de tudo eu sou culpado. Depois bato na minha mulher e apanho do meu cunhado.", "a": "Sidônio"}, {"v": "Leão que pensava em me pegar perdeu a pata. Cobra que pensava em me picar sumiu na mata. Cachorro que pensava em me morder ficou sem dente. Feiticeiro que pensava em me matar ficou doente.", "a": "Sidônio"}, {"v": "Minha gente eu vou pro céu, já paguei os meus pecados, já sofri muito na terra aguentando meu cunhado. Ele chegava sexta-feira pedindo dinheiro emprestado.", "a": "Sidônio"}, {"v": "Minha mãe me disse: filho, deixa de beber. Eu disse pra ela que só paro quando eu morrer, porque rodeio e mulher bonita não mandei ninguém fazer.", "a": "Sidônio"}, {"v": "Morena da sobrancelha de veludo, o seu pai não tem dinheiro, sua beleza compra tudo. Revólver tem que ser shimitt e embornal tem que ser de couro. Namorada de cowboy tem que ter o cabelo loiro.", "a": "Sidônio"}, {"v": "Morena, seus olhos são da cor do céu, mas é pra loira que vou tirar meu chapéu.", "a": "Sidônio"}, {"v": "Mulher, a minha vida hoje é sofrer por tudo que aconteceu. Eu já bebi, eu já fumei, meu coração não te esqueceu. Cruzei serra e desci morro montado num lombo de um potro. Cheguei pra te dar carinho, te encontro nos braços de outro.", "a": "Sidônio"}, {"v": "Não importa se é loira de cabelo liso ou morena de cabelo cacheado. É só me dar um sorriso que eu já fico apaixonado. Porque quando vejo mulher bonita, eu fico alucinado.", "a": "Sidônio"}, {"v": "Não encosta no meu carro, pois meu carro solta pó. Encosta na minha casa, pois sou solteiro e moro só.", "a": "Sidônio"}, {"v": "Nesse mundo maluco de peões e animais, a vida e o rodeio se fundem feito água com gás. A voz vibrante segura no gogó do Barra Mansa. Novilho com cara de adulto e boi bravo com coração de criança.", "a": "Sidônio"}, {"v": "No dia em que eu estou bravo e pego praia do cá, boi bato na cabeça, cavalo eu bato na pá, mulher bato no traseiro onde o pau pegar.", "a": "Sidônio"}, {"v": "O bom ginete é o grande apaixonado: faz xixi na cama e fala pra todo mundo que amanheceu suado.", "a": "Sidônio"}, {"v": "O açude quando seca deixa lama no porão. O fogo quando apaga deixa cinza no fogão. E a menina quando mija deixa um buraco no chão.", "a": "Sidônio"}, {"v": "Oh mulher bonita, comigo não tem graça. Mulher que não esquenta, eu faço ela soltar fumaça!", "a": "Sidônio"}, {"v": "Oh Juares, bebo da branca pra esquecer a Bianca, bebo da amarela pra esquecer a Maristela. Bebo Brahma lembrando que alguém me ama. Misturo com limão pra não lembrar do Ricardão.", "a": "Sidônio"}, {"v": "Oh Aparecida do Taboado, onde fiquei 60 dias apaixonado. As três coisas que me incomoda: mulher ciumenta, mulher chorando e cavalo rodando.", "a": "Sidônio"}, {"v": "Oh loira do cabelo enrolado, encosta a bunda no carro branco e a xexênia do meu lado.", "a": "Sidônio"}, {"v": "Oh morena, se você soubesse o jeito gostoso que a loira tem: botava o biquíni, comprava água oxigenada, pintava o cabelo e ficava loira também.", "a": "Sidônio"}, {"v": "Oh povão apaixonado, vai começar a festa maior. Sai de baixo e fica em cima, que é do chão que sai o pó. Põe os dedos na cintura pra bater o pé sem dó. Segura a morena do lado, pois cowboy não fica só. Vem pra festa de rodeio que assim fica melhor.", "a": "Sidônio"}, {"v": "Oh mundo veio sem porteira. Veia doida regateira. Vem ne mim trem que eu sou facinho.", "a": "Sidônio"}, {"v": "Para entrar nesta luta saí da minha trincheira, com pingos do meu suor fui apagando a poeira. Com fibra e resistência igual cerne de aroeira. Eu sempre segui avante atravessando barreira. Precisa ter fé em Deus pra chegar aonde estou.", "a": "Sidônio"}, {"v": "Pra chegar onde eu desejo e sou esperado, tenho ido por água, terra e mar, sem chegar atrasado. Por terra eu só uso o meu alazão. Pra voar é segredo, mas não uso avião. Ando sobre a água sem canoa. Mas na hora do vanerão, eu procuro a coroa.", "a": "Sidônio"}, {"v": "Pra quem já domou leão, touro bravo é bezerro. Só fico com mulher bonita e não vejo erro. Só vou ficar com mulher feia depois do meu enterro.", "a": "Sidônio"}, {"v": "Pinga amarela da cana torta. Se por causa dela meu pai e minha mãe morreram, se me matar pouco importa. Segura peão!", "a": "Sidônio"}, {"v": "Pintinho acompanhou pato, morreu afogado. Quem tem mulher bonita tem que andar ligado. Se marcar fica sozinho e o Ricardão acompanhado.", "a": "Sidônio"}, {"v": "Quem me vê assim sorridente não sabe o que eu estou passando. O meu sorriso é triste, eu devia era estar chorando. Mas o mundo é mesmo assim: enquanto um sorri, outro chora de dor.", "a": "Sidônio"}, {"v": "Quem já caiu no fogo, uma brasa não é nada. Quem já tomou chuva não tem medo de sereno. Quem perdeu um grande amor, desprezo é café pequeno. Quem foi mordido de cobra não tem medo de veneno.", "a": "Sidônio"}, {"v": "Quando entro num rodeio pra fazer uma narração, eu torço pro boi que pula e também torço pro peão. E qualquer um que aqui vença, tudo aqui pra mim tá bom.", "a": "Sidônio"}, {"v": "Quatro coisas no mundo que o meu coração tormenta: cavalo trotão, moleque chorão, casa desteinta e mulher ciumenta. Mas pra tudo no mundo se dá um jeito: cavalo trotão breganha, moleque chorão apanha, casa nós enteia e mulher ciumenta dorme na feia.", "a": "Sidônio"}, {"v": "Rodeio é festa de brava onde o cowboy não passa vontade. O batidão é forte e não tem hora pra acabar. Tem muita moda boa e a gente vai aproveitar. Enquanto tiver mulher, a festa não vai parar.", "a": "Sidônio"}, {"v": "Se o mundo fosse perfeito, ninguém ficaria só, beber não seria defeito, toda música seria sertanejo e forró e muié não queria homi direito... pra poder arrochar o nó!", "a": "Sidônio"}, {"v": "Sou filho do interior criado no estradão, no meio de homem valente e cavalo redomão. Hoje tudo é diferente, tem a festa do peão. A gente leva pra cidade o que nós aprendemos no sertão.", "a": "Sidônio"}, {"v": "Sou filho de fazendeiro, de prefeito sou afilhado. Tenho tio engenheiro e amigo deputado. Não me apego a dinheiro, de briga estou cansado. Sou humilde, sou vaqueiro, em Piranguinho fui criado.", "a": "Sidônio"}, {"v": "Sou um locutor apaixonado, gosto de mulher e não faço objeção. Já tive mulheres que me deixaram no chão, mas foram aqueles olhos azuis que laçaram meu coração.", "a": "Sidônio"}, {"v": "Tenho um quarto de milha branco e um mangalarga baio. Quando entro num rodeio dificilmente saio. Tenho loira de namorada e morena de quebra-galho.", "a": "Sidônio"}, {"v": "Vamos abaixar a poeira deste nosso sapateado. Chegou a hora da gente dançar colado, porque aqui nessa festa o que não falta é mulher e homem apaixonado.", "a": "Sidônio"}, {"v": "Tem laranja grande, tem laranja miúda. Tem homem que usa calça, tem homem que usa bermuda. Tem mulher que fala muito, tem mulher que é muda. Muitas delas não sabem, mas a maioria é chifruda.", "a": "Vida"}, {"v": "Eu nasci num ninho de cobra, minha mãe era serpente. Eu bebi do leite dela, meu sangue ficou mais quente. Jacaré mato no tapa, cascavel mato no dente. Porque o sangue que corre na minha veia é o veneno do aguardente.", "a": "Vida"}, {"v": "Meu sinto é de couro, meu chapéu americano. Eu vivo do rodeio, minha vida é de cigano. Gosto mesmo é da morena. Só fui pra cama com uma loira por engano.", "a": "Vida"}, {"v": "Toda mulher tem sua qualidade. A bonita serve pra namorar e beijar na boca, a feia pra espantar mosquito e mau-olhado. É por isso que só ando com duas mulher: uma tem que ser a minha e a outra do meu cunhado.", "a": "Vida"}, {"v": "Eu sou paulista, deito tarde e acordo cedo. Não como salgado, doce e nem azedo. Se eu não puder comer, pelo menos meto o dedo.", "a": "Vida"}, {"v": "Mulher para mim não tem solteira e nem casada. Comigo é assim: começa de noite e termina de madrugada.", "a": "Vida"}, {"v": "Delegado escutou, me segurou e disse: repete se for homem. Aí eu repeti. Achei a chave de casa, a minha mulher apareceu. O delegado daqui é macho, o corno daqui sou eu.", "a": "Vida"}, {"v": "Moça loira bonita do cabelo comprido, o teu cheiro é meu cheiro preferido. Peão que é valente derruba touro no grito, tira chifre do touro e bota chifre no teu marido.", "a": "Vida"}, {"v": "O açude quando seca deixa lama no porão. O fogo quando apaga deixa cinza no fogão. O amor quando termina deixa um vazio no coração.", "a": "Vida"}, {"v": "Fui narrar rodeio no estadão de Minas Gerais. Por essas bandas prometo que não volto mais. Lá chegando, vejam só que confusão: entrei no bar e vi no meio do salão uma loira e uma morena sentadas em cima do balcão.", "a": "Vida"}, {"v": "No dia em que eu for bravo e pego pra educar, boi bato na cabeça, cavalo eu bato na pá, mulher bato no traseiro e homem aonde o pau pegar.", "a": "Vida"}, {"v": "O marido chegando em casa e ouvindo uns gemidos, encontrou a mulher na cama e atrás da porta escondido. Perguntou baixinho, dizendo num sussurro: o que você tá fazendo, Berenice? E a mulher se virou e pro amante falou: eu não te disse que ele era burro.", "a": "Edson Amorim"}, {"v": "De velho o pau cai a folha, com bebida forte o cara turbina. De sabão o menininho faz bolha. E as mulheres são como vinho: umas refinam, umas encorpam e outras azedam por falta de rolha.", "a": "Edson Amorim"}, {"v": "Veja que história engraçada, essa que eu vou contá: um casal de velhinhos, sem ter o que conversá. O velhinho disse pra véia: sabe a Jacira, nossa antiga empregada? Ela era uma safada, e daquele corpinho eu cansei de abusá. E a véia retrucou: meu querido véio Abreu, meu pecado é pior que o seu. Sabe aqueles corpo de bombeiros, perto da casa de Mineiros? Todo aquele corpo foi meu.", "a": "Edson Amorim"}, {"v": "A mulher quarentona é um tesão, veste roupas insinuantes, quando até um irresistível colante que marcam o seu corpão. Na academia rouba a cena, é colírio pra visão. De gato e cachorro é companheira, então me coloca na sua coleira, pois eu sou cachorrão, au au.", "a": "Edson Amorim"}, {"v": "A mulher quarentona não quer ser chamada de dona, mas é uma mulher experiente, atraente e bem vestida. É mesmo uma gatona, é carinhosa, sensual e bem cheirosa, tal qual a cantora Madonna.", "a": "Edson Amorim"}, {"v": "Gato tem sete vidas, e na arena o peão tem vida de sete gatos. E a bela mulher pequena é mansa, doce e serena, mas é um furacão na cama, pois enquanto diz que ama, me faz de gato e sapato.", "a": "Edson Amorim"}, {"v": "Tem mulher que desgostou de ser bonita na vida: tatua um dragão na perseguida, bunda ou peito, e aquilo que era perfeito vira uma maçã mordida.", "a": "Edson Amorim"}, {"v": "O peão reza pros céus, mas a sombra mal-assombrada ainda teima em lhe acompanhá. Com dinheiro no bolso, as coisas hão de mudá, e a sua tão sonhada casa ele poderá enfim financiá. E da casa da jararaca da sogra, com sua morena dengosa, ele poderá enfim se mudá.", "a": "Edson Amorim"}, {"v": "Tenho uma vida bipolar por causa desse distrato: minha sogra me chama de cachorro e minha mulher me chama de gato. Um dia desses eu morro atacado por uma onça no mato, ou vou acabar doido correndo atrás de rato.", "a": "Edson Amorim"}, {"v": "Nunca fumei e nunca bebi uma pinga qualquer. Meu vício sempre foi gostar de uma linda mulher. E por eu ter nascido assim, acho que é coisa da natureza, pois até a minha babá Tereza dava mama pra mim.", "a": "Edson Amorim"}, {"v": "Tenho um passarinho nervoso, sempre quer escapar da gaiola. Não é um passarinho grande, é um pequenino piu-piu, igual ao amigo do gato Frajola. Mas se ganha alpiste da morena, logo cresce, depois serena, pois ela ele consola.", "a": "Edson Amorim"}, {"v": "Sogra, você é minha paixão. Fico perto do seu fogão, de sábado a sexta-feira, comendo seu arroz e feijão. E só na manha, colocando a picanha pra grelhar na sua churrasqueira.", "a": "Edson Amorim"}, {"v": "Se a galinha é ruim, o pinto falha. E se o galo perde na rinha, a fofoca no terreiro se espalha.", "a": "Edson Amorim"}, {"v": "Uma loira em Medianeira mentiu que era solteira, me fazendo de migué. Logo o corno inconformado, fazendo um barulho danado, me pegou com a sua muié. Pra evitar o pior, ligeiro pensei: acho que é melhor eu dar no pé. Então liguei as turbinas, apertei o botão da gasolina, e foi um salve-se quem puder.", "a": "Edson Amorim"}, {"v": "Pra barriga cheia goiaba tem bicho. Sogra gosta mesmo é de fofoca e de cochicho. Gosto de tomar pinga gelada contando prosa pra moçada lá no bolicho. Sempre touro, cavalo e vaca eu jogo no bicho. Gosto de matar desejos e na morena dar beijos, com todo capricho.", "a": "Edson Amorim"}, {"v": "Mulher feia e briguenta quase ninguém aguenta. É uma jararaca do rabo branco que além de ciumenta enche o saco, faz barraco e sobe no tamanco. E pra acalmar a cobra, tem que chamar a sogra ou jogar água benta.", "a": "Edson Amorim"}, {"v": "Não entendo a mulher que tem medo de mandruvá: grita, pula e sai correndo, sente medo até de ouvir falá. Mas não tem medo de cobra, e tem até coragem de sobra, pois chega a cobra beijá.", "a": "Edson Amorim"}, {"v": "Já fui marido de aluguel, e tudo eu consertava: apertava a torneira pingando e o aquecimento da banheira calibrava. Via porque a chave não abria e o ferro não esquentava, se o gás estava vazando e o ar do quarto não refrigerava. E da madame assanhada, seu fogo com meu extintor apagava.", "a": "Edson Amorim"}, {"v": "Mulher de rei é rainha, filha de pobre é coitadinha. Transa no carro é uma rapidinha. Se vai me cumprimentar, então vem e pega na minha.", "a": "Edson Amorim"}, {"v": "Beijo gostoso é roubado, café saboroso é pingado, laço forte é de tento de couro trançado. O pior chute na bunda é ser reprovado. Bêbado não faz nem quatro e nem oito, e a melhor diversão da noite é molhar o biscoito.", "a": "Edson Amorim"}, {"v": "Em casa eu não mando, quem manda é a minha mulher. Mas o amor é grande, não somos um casal qualquer. Lavo e passo o ferro, cozinho bem e no tempero não erro, e ainda sou seu chofer. Levo ela pra passear e nas lojas comprar tudo o que ela quer. De dia ela me judia, ai de mim se eu não fizer. Mas à noite, no nosso ninho, é só beijo e carinho. Eu amo essa mulher.", "a": "Edson Amorim"}, {"v": "Morena quente e fogosa, quando quer namorar com ela não tem prosa: pendura no meu pescoço e num abraço colosso seu corpo chega a faiscar. Cola seus lábios aos meus parecendo beijo de adeus, mas ela quer mesmo é ficar.", "a": "Edson Amorim"}, {"v": "As mulheres dizem que sou carinhoso e que tenho uma boa pegada. E que minha marcha é forte e sobe a serra sem derrapada. Mas acho que é porque vou devagar até o ponto G, depois dou uma acelerada. E se a parceira for boa pinta, vou da primeira à quinta durante toda a madrugada.", "a": "Edson Amorim"}, {"v": "Loiraça, me abraça, você é pura sedução. Me faz sonhar e voar em imaginação. Queria te desfolhar inteira, começando sábado e acabando na sexta-feira. E de repente, só entre a gente e com boa intenção, no seu fogo ardente posso acender o meu tição.", "a": "Edson Amorim"}, {"v": "Alta madrugada, pensa numa cena engraçada: ouvi o vizinho na sua porta batendo e implorando, dizendo: mulher, deixa eu entrar. Ela disse: fala baixo, corno, pros vizinhos não escutar. Mas espera aí um pouco, até o Tião se aprontar. Dessa cena nunca esqueci, pois era eu o Tião que estava lá. Saí pela porta do fundo e ganhei o mundo, sem nem pra trás olhar.", "a": "Edson Amorim"}];
+
+// Palavras que marcam verso "de muié"
+const TEMAS_MUIE = ["mulher","muié","morena","loira","loura","namorada","casada","casada","sogra",
+  "corno","amante","namorad","paixão","paixao","beijo","beijar","amor","cama","calcinha","moça","moca",
+  "desquitada","mulher bonita","mulher feia","perereca","namoro","paquer","chifre","vizinha","goiana",
+  "gostosa","namorar","esposa","garoto","garotão","muchacha","gatona","mulherada"];
+
+const isMuie = v => {
+  const t = v.toLowerCase();
+  return TEMAS_MUIE.some(w => t.includes(w));
+};
+
+const DESAFIOS = [
+  "Canta um modão de viola pra morena mais perto",
+  "Imita o locutor de rodeio anunciando a muié",
+  "Lê com voz de galã caipira",
+  "Lê gaguejando que nem peão apaixonado",
+  "Lê gritando 'SEGURA PEÃO' no meio",
+  "Lê sussurrando no ouvido de quem tá do lado",
+  "Manda um beijo estalado pra mesa inteira",
+  "Paquera a garrafa de cachaça"
+];
+const CASTIGOS = [
+  "1 gole","2 goles","3 goles","Vira o copo (a garrafa manda)",
+  "Dança um passinho de forró colado",
+  "Grita 'SEGURA PEÃO!'",
+  "Faz flexão (quantas aguentar)",
+  "Conta uma cantada de peão pra alguém",
+  "Tira o chapéu e faz reverência pra muié",
+  "Beija a própria mão dizendo 'boa noite, morena'"
+];
+const DESAFIOS_MUIE = [
+  "Declama o verso de joelhos pra uma muié",
+  "Imita um cowboy paquerando no bailão",
+  "Lê como se estivesse conquistando a morena",
+  "Lê com olhar de garanhão da madrugada",
+  "Grita 'EU TE AMO, MORENA!' no final",
+  "Lê cheirando o próprio braço como se fosse perfume"
+];
+
+const app = document.getElementById('app');
+const chipCount = document.getElementById('chipCount');
+chipCount.textContent = VERSOS.length + ' versos carregados';
+
+const rnd = a => a[Math.floor(Math.random()*a.length)];
+const ultima = v => {
+  const m = v.toLowerCase().match(/[a-zà-ÿ]+/g);
+  return m ? m[m.length-1] : '';
+};
+const frases = v => v.replace(/[!?]/g,'.').split('.').map(s=>s.trim()).filter(Boolean);
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function menu(){
+  app.innerHTML = `
+    <div class="menu">
+      <button class="btn" data-m="1"><span class="num">1</span><span>Completa o Verso<small>locutor anuncia, você completa — errou, bebe</small></span></button>
+      <button class="btn" data-m="2"><span class="num">2</span><span>Rima ou Bebe<small>palavra-alvo, ache o verso que rima</small></span></button>
+      <button class="btn pink" data-m="6"><span class="num">6</span><span>Muié ou Bebe 🍑<small>só verso de muié, pra animar a paquera</small></span></button>
+      <button class="btn" data-m="3"><span class="num">3</span><span>Roda-Roda do Peão<small>cada um lê um verso na vez</small></span></button>
+      <button class="btn" data-m="4"><span class="num">4</span><span>Sorte ou Azar<small>verso + desafio + castigo</small></span></button>
+      <button class="btn" data-m="5"><span class="num">5</span><span>Estatísticas<small>versos e autores</small></span></button>
+    </div>`;
+  app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{
+    const m=b.dataset.m;
+    if(m==='1') m1(); else if(m==='2') m2(); else if(m==='3') m3(); else if(m==='4') m4();
+    else if(m==='5') m5(); else if(m==='6') m6();
+  });
+}
+
+function verseBox(item, extra=''){
+  return `<div class="verse-box"><div class="verse">${esc(item.v)}</div>
+          <div class="autor">— ${esc(item.a)}</div>${extra}</div>`;
+}
+
+function volta(label){
+  return `<div class="row">
+    <button class="btn" id="back">← Menu</button>
+    <button class="btn big" id="again">${label}</button>
+  </div>`;
+}
+
+/* MODO 1 */
+function m1(){
+  const item = rnd(VERSOS);
+  const fs = frases(item.v);
+  if(fs.length<2){ m1(); return; }
+  const corte = 1 + Math.floor(Math.random()*(fs.length-1));
+  const trecho = fs.slice(0,corte).join('. ') + ' ...';
+  app.innerHTML = `
+    <div class="tag">Modo 1 · Completa o Verso</div>
+    <div class="verse-box"><div class="verse">📢 ${esc(trecho)}</div></div>
+    <div class="hint">💡 última palavra tem a ver com: <b>'${esc(ultima(fs[fs.length-1]))}'</b></div>
+    <div class="row">
+      <button class="btn big" id="rev">Ver resposta</button>
+      <button class="btn" id="back">← Menu</button>
+    </div>`;
+  document.getElementById('back').onclick=menu;
+  document.getElementById('rev').onclick=()=>{
+    app.innerHTML = `<div class="tag">Modo 1 · Resposta</div>
+      ${verseBox(item)}
+      <div class="row">
+        <button class="btn green" id="sim">✅ Acertei</button>
+        <button class="btn red" id="nao">🍺 Errei — bebo!</button>
+      </div>`;
+    document.getElementById('sim').onclick=m1;
+    document.getElementById('nao').onclick=m1;
+  };
+}
+
+/* MODO 2 */
+function m2(){
+  const item = rnd(VERSOS);
+  const alvo = ultima(item.v);
+  if(!alvo){ m2(); return; }
+  app.innerHTML = `
+    <div class="tag">Modo 2 · Rima ou Bebe</div>
+    <div class="target">
+      <div class="l">Palavra-alvo</div>
+      <div class="w">${esc(alvo)}</div>
+      <div class="l">dica: verso começa com '${esc(item.v[0])}...'</div>
+    </div>
+    <input type="text" id="in" placeholder="Digite o verso que rima...">
+    <div class="row">
+      <button class="btn big" id="ok">Confirmar</button>
+      <button class="btn" id="back">← Menu</button>
+    </div>`;
+  document.getElementById('back').onclick=menu;
+  document.getElementById('ok').onclick=()=>{
+    const resp = document.getElementById('in').value.trim().toLowerCase();
+    const p0 = resp.split(/\s+/)[0] || '';
+    const certo = resp && VERSOS.some(x=> x.v.toLowerCase().includes(p0) || x.v.toLowerCase().includes(resp));
+    app.innerHTML = `<div class="tag">Modo 2 · Resultado</div>
+      ${verseBox(item)}
+      <div class="hint">${certo ? '🎉 MANDOU BEM!' : '🍺 NÃO ERA ESSE... BEBE!'}</div>
+      ${volta('De novo')}`;
+    document.getElementById('back').onclick=menu;
+    document.getElementById('again').onclick=m2;
+  };
+}
+
+/* MODO 3 */
+function m3(){
+  const item = rnd(VERSOS);
+  app.innerHTML = `<div class="tag">Modo 3 · Roda-Roda do Peão</div>
+    <div class="hint" style="color:var(--gold)">🎤 Leia em voz alta na sua vez</div>
+    ${verseBox(item)}
+    ${volta('Próximo verso')}`;
+  document.getElementById('back').onclick=menu;
+  document.getElementById('again').onclick=m3;
+}
+
+/* MODO 4 */
+function m4(){
+  const item = rnd(VERSOS);
+  const d = rnd(DESAFIOS), c = rnd(CASTIGOS);
+  app.innerHTML = `<div class="tag">Modo 4 · Sorte ou Azar</div>
+    ${verseBox(item)}
+    <div class="castigos">
+      <span class="castigo desafio">🎤 ${esc(d)}</span>
+      <span class="castigo bebe">🍺 ${esc(c)}</span>
+    </div>
+    ${volta('Sortear de novo')}`;
+  document.getElementById('back').onclick=menu;
+  document.getElementById('again').onclick=m4;
+}
+
+/* MODO 6 — MUIÉ OU BEBE */
+function m6(){
+  const pool = VERSOS.filter(x => isMuie(x.v));
+  const item = rnd(pool.length ? pool : VERSOS);
+  const d = rnd(DESAFIOS_MUIE), c = rnd(CASTIGOS);
+  app.innerHTML = `<div class="tag" style="color:var(--pink)">Modo 6 · Muié ou Bebe 🍑</div>
+    <div class="hint" style="color:var(--pink)">🔥 verso de muié + desafio de conquista</div>
+    ${verseBox(item)}
+    <div class="castigos">
+      <span class="castigo desafio">🎤 ${esc(d)}</span>
+      <span class="castigo bebe">🍺 ${esc(c)}</span>
+    </div>
+    ${volta('Outra muié')}`;
+  document.getElementById('back').onclick=menu;
+  document.getElementById('again').onclick=m6;
+}
+
+/* MODO 5 */
+function m5(){
+  const cont = {};
+  VERSOS.forEach(x=>cont[x.a]=(cont[x.a]||0)+1);
+  const linhas = Object.entries(cont).sort((a,b)=>b[1]-a[1])
+    .map(([a,n])=>`<div class="stat"><span>${esc(a)}</span><b>${n}</b></div>`).join('');
+  const nMui = VERSOS.filter(x=>isMuie(x.v)).length;
+  app.innerHTML = `<div class="tag">Estatísticas</div>
+    <div class="stat"><span>Total de versos</span><b>${VERSOS.length}</b></div>
+    <div class="stat"><span>🍑 De muié</span><b>${nMui}</b></div>${linhas}
+    <div class="row"><button class="btn big" id="back">← Menu</button></div>`;
+  document.getElementById('back').onclick=menu;
+}
+
+menu();
+</script>
+</body>
+</html>
